@@ -1,10 +1,30 @@
-import tkinter
+from mttkinter import mtTkinter as tkinter
+import json,time,numpy as np
+import camera,chartLoader
+#from PIL import Image,ImageTk
+
+# def image_CV2ToTk(img):
+# 	image=Image.fromarray(np.uint8(cv2.cvtColor(img,cv2.COLOR_BGR2RGB)))
+# 	return ImageTk.PhotoImage(image=image)
 
 def start():
-	txt=tkinter.Label(win,text='Start')
-	txt.pack(anchor='nw',side=tkinter.LEFT,padx=50,pady=20)
+	hideMenu()#hideAll()# tkinter window would stuck here, reason unknown! (bug not fatal)
+	time.sleep(0.5)
+	cameraThread=camera.cameraThread()
+	chartThread=chartLoader.chartLoaderThread()
+	cameraThread.start()
+	chartThread.start()
+	time.sleep(10)
+	cameraThread.quit=True
+	chartThread.quit=True
+	time.sleep(1)
+	cameraThread.join()
+	chartThread.join()
+	showMenu()
 
 def option():
+	hideAll()
+	showMenu()
 	showOption()
 
 def volumeSet(value):
@@ -19,7 +39,7 @@ settings={'volume':100,'offset':0}
 
 win=tkinter.Tk()
 win.title('AIDDR')
-win.geometry('800x800')
+win.geometry('1400x800')
 
 startButton=tkinter.Button(win,command=start,text='Start')
 optionButton=tkinter.Button(win,command=option,text='Option')
@@ -48,6 +68,8 @@ def showOption():
 	offsetLabel.pack(anchor='s',side=tkinter.TOP)
 
 def hideOption():
+	volumeScale.pack_forget()
+	volumeLabel.pack_forget()
 	offsetScale.pack_forget()
 	offsetLabel.pack_forget()
 

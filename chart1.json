@@ -1,0 +1,10 @@
+{
+	"music": ".//music1.mp3",
+	"length": 180,
+	"spd": 10,
+	"notes": 
+	[
+		{"type": 1, "direction": 4, "time": 1.5},
+		{"type": 2, "direction": 3, "time": 6.63}
+	]
+}
