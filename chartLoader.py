@@ -25,7 +25,6 @@ class chartLoaderThread(threading.Thread):
 			cv2.imshow('chart',img)
 			cv2.waitKey(1)
 		cv2.destroyWindow('chart')
-		return
 	def loadChart(self,chartPath):
 		with open(chartPath,'r') as File:
 			data=json.load(File)

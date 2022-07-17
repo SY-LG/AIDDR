@@ -13,4 +13,3 @@ class cameraThread(threading.Thread):
 				cv2.waitKey(1)
 		camera.release()
 		cv2.destroyAllWindows()
-		return

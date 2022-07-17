@@ -1,6 +1,6 @@
 from mttkinter import mtTkinter as tkinter
 import json,time,numpy as np
-import camera,chartLoader
+import camera,chartLoader,music
 #from PIL import Image,ImageTk
 
 # def image_CV2ToTk(img):
@@ -8,34 +8,28 @@ import camera,chartLoader
 # 	return ImageTk.PhotoImage(image=image)
 
 def start():
-	hideMenu()#hideAll()# tkinter window would stuck here, reason unknown! (bug not fatal)
+	hideAll()# tkinter window would stuck here, reason unknown! (bug not fatal)
 	time.sleep(0.5)
 	cameraThread=camera.cameraThread()
 	chartThread=chartLoader.chartLoaderThread()
+	musicThread=music.musicThread(volume=volumeScale.get())
 	cameraThread.start()
 	chartThread.start()
+	musicThread.start()
 	time.sleep(5)
 	cameraThread.quit=True
 	chartThread.quit=True
+	musicThread.quit=True
 	time.sleep(1)
 	cameraThread.join()
 	chartThread.join()
+	musicThread.join()
 	showMenu()
 
 def option():
 	hideAll()
 	showMenu()
 	showOption()
-
-def volumeSet(value):
-	global settings
-	settings['volume']=value
-
-def offsetSet(value):
-	global settings
-	settings['offset']=value
-
-settings={'volume':100,'offset':0}
 
 win=tkinter.Tk()
 win.title('AIDDR')
@@ -45,10 +39,12 @@ startButton=tkinter.Button(win,command=start,text='Start')
 optionButton=tkinter.Button(win,command=option,text='Option')
 exitButton=tkinter.Button(win,command=lambda : win.destroy(),text='Exit')
 
-volumeScale=tkinter.Scale(win,from_=0,to=100,command=volumeSet,orient=tkinter.HORIZONTAL)
+volumeScale=tkinter.Scale(win,from_=0,to=100,orient=tkinter.HORIZONTAL)
+volumeScale.set(100)
 volumeLabel=tkinter.Label(win,text='volume')
 
-offsetScale=tkinter.Scale(win,from_=-100,to=100,command=offsetSet,orient=tkinter.HORIZONTAL)
+offsetScale=tkinter.Scale(win,from_=-100,to=100,orient=tkinter.HORIZONTAL)
+offsetScale.set(0)
 offsetLabel=tkinter.Label(win,text='offset')
 
 def showMenu():
