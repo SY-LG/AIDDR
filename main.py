@@ -14,7 +14,7 @@ def start():
 	chartThread=chartLoader.chartLoaderThread()
 	cameraThread.start()
 	chartThread.start()
-	time.sleep(10)
+	time.sleep(5)
 	cameraThread.quit=True
 	chartThread.quit=True
 	time.sleep(1)

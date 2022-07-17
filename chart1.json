@@ -1,10 +1,12 @@
 {
 	"music": ".//music1.mp3",
-	"length": 180,
-	"spd": 10,
+	"time": 4000,
+	"spd": 0.5,
 	"notes": 
 	[
-		{"type": 1, "direction": 4, "time": 1.5},
-		{"type": 2, "direction": 3, "time": 6.63}
+		{"type": 1, "rail": 4, "time": 1500},
+		{"type": 1, "rail": 3, "time": 2000},
+		{"type": 1, "rail": 1, "time": 2200},
+		{"type": 1, "rail": 2, "time": 3000}
 	]
 }
