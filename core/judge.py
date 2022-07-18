@@ -1,3 +1,15 @@
+# camera.py will call judgeFrame in each frame.
+# you need to judge what the player should do and how he's doing.
+# There will be a param that tells the start time.
+# return format: (indexOfNote,Judegement)
+# indexOfNote is the index of note in the json file. If no note is judged in that frame, return None
+# Judgement can be None,"Perfect","Good","Bad" or "Miss"
+# Judge one note per frame is OK (I guess), since if two notes should be judged at the same time,
+# judging them in two frames should not make a big difference.
+def judgeFrame(frame):
+    pass
+
+
 #1.使用就是import 文件名（可以重新命名我没起名字），每一帧要判断的时候调用 文件名.score(各种参数，下有说明)
 #2.这个加了z方向的变化，动作更多了些，不知道能不能z方向识别准确，也许可以试试
 #3.有考虑到比如手遮挡了肩膀那么肩膀处的关键点是否能识别出来的问题，我看一些大佬实现识别的视频里，即使遮挡住身体的某些部分，比如手挡住了脸之类，
