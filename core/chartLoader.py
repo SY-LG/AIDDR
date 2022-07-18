@@ -4,14 +4,14 @@ class chartLoaderThread(threading.Thread):
 	def run(self):
 		self.quit=False
 		self.startTime=time.perf_counter()
-		self.background=cv2.resize(cv2.imread('./chartBG.png'),(600,600))
+		self.background=cv2.resize(cv2.imread('./data/pictures/chartBG.png'),(600,600))
 		self.xBias=75
 		self.railWidth=150
 		self.railLength=600
 		self.yJudge=80
 		for i in range(1,5):
 			self.generateNote(self.background,i,self.railLength-self.yJudge,(255,255,255))
-		self.loadChart('./chart1.json')
+		self.loadChart('./data/charts/chart1.json')
 		cv2.namedWindow('chart')
 		while not self.quit:
 			img=self.background.copy()

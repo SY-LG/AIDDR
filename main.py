@@ -1,6 +1,6 @@
 from mttkinter import mtTkinter as tkinter
 import json,time,numpy as np
-import camera,chartLoader,music
+from core import camera,chartLoader,music
 
 def start():
 	hideAll()# tkinter window would stuck here, reason unknown! (bug not fatal)

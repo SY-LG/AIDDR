@@ -7,7 +7,7 @@ class musicThread(threading.Thread):
 	def run(self):
 		self.quit=False
 		audio = pyaudio.PyAudio()
-		with wave.open('t.wav', "rb") as file:
+		with wave.open('./data/musics/t.wav', "rb") as file:
 			formatType=audio.get_format_from_width(file.getsampwidth())
 			npType=eval(f"numpy.int{formatType}")
 			stream = audio.open(format=pyaudio.paInt16,channels=file.getnchannels(),rate=file.getframerate(),frames_per_buffer=1024,output=True)
