@@ -1,0 +1,14 @@
+[
+	{
+		"name": "test",
+		"chart": "./data/charts/chart1.json",
+		"music": "./data/musics/t.wav",
+		"time": 10000
+	},
+	{
+		"name": "tmp",
+		"chart": "./data/charts/chart2.json",
+		"music": "./data/musics/t2.wav",
+		"time": 10000
+	}
+]
