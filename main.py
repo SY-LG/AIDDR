@@ -53,10 +53,8 @@ def playMusic():
 	cameraThread.join()
 	chartThread.join()
 	musicThread.join()
-	showResults(None)
-
-def showResults(results):
-	showMenu()
+	showResults({"Score":114514,"total":4,"Perfect":2,"Good":1,"Bad":0,"Miss":1})
+	showBack()
 
 def optionsFunc():
 	hideAll()
@@ -96,6 +94,9 @@ selectLabel=tkinter.Label(win,pady=20)
 prevButton=tkinter.Button(win,command=prevFunc,text='Prev')
 nextButton=tkinter.Button(win,command=nextFunc,text='Next')
 confirmButton=tkinter.Button(win,command=confirmFunc,text='Comfirm')
+
+resultsBanner=tkinter.Label(win,text='Results',font=('Arial',15))
+resultsLabel=tkinter.Label(win,pady=20)
 
 optionsBanner=tkinter.Label(win,text='Options',font=('Arial', 15))
 
@@ -146,7 +147,9 @@ def hideMenu():
 
 def showSelect():
 	global infos,songNumber
-	selectLabel['text']=f'name:{infos[songNumber]["name"]}'
+	selectLabel['text']=f'''name:{infos[songNumber]["name"]}
+	{songNumber+1}/{len(infos)}
+	'''
 	selectBanner.pack(anchor='n',side=tkinter.TOP)
 	selectLabel.pack(anchor='s',side=tkinter.BOTTOM)
 	prevButton.place(relx=0.7,rely=0.2)
@@ -163,6 +166,20 @@ def hideSelect():
 	prevButton.place_forget()
 	nextButton.place_forget()
 	confirmButton.place_forget()
+
+def showResults(results):
+	resultsLabel['text']=f'''Score:{results['Score']}
+	Perfect:{results['Perfect']}
+	Good:{results['Good']}
+	Bad:{results['Bad']}
+	Miss:{results['Miss']}
+	'''
+	resultsBanner.pack(anchor='n',side=tkinter.TOP)
+	resultsLabel.pack(anchor='s',side=tkinter.BOTTOM)
+
+def hideResults():
+	resultsBanner.pack_forget()
+	resultsLabel.pack_forget()
 
 def showOptions():
 	optionsBanner.pack(anchor='n',side=tkinter.TOP)
