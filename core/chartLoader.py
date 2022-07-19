@@ -4,7 +4,7 @@ class chartLoaderThread(threading.Thread):
 	def __init__(self,path,startTime,offset):
 		threading.Thread.__init__(self)
 		self.path=path
-		self.startTime=startTime-offset
+		self.startTime=startTime-offset/1000
 	def run(self):
 		self.quit=False
 		self.startTime=time.perf_counter()

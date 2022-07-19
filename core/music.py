@@ -5,7 +5,7 @@ class musicThread(threading.Thread):
 	def __init__(self,path,startTime,volume,offset):
 		threading.Thread.__init__(self)
 		self.path=path
-		self.startTime=startTime-offset
+		self.startTime=startTime-offset/1000
 		self.volume=volume/100
 	def run(self):
 		self.quit=False
