@@ -1,9 +1,10 @@
 import threading,time,json,cv2,math,numpy as np
 
 class chartLoaderThread(threading.Thread):
-	def __init__(self,path):
+	def __init__(self,path,startTime,offset):
 		threading.Thread.__init__(self)
 		self.path=path
+		self.startTime=startTime-offset
 	def run(self):
 		self.quit=False
 		self.startTime=time.perf_counter()
@@ -15,6 +16,8 @@ class chartLoaderThread(threading.Thread):
 		for i in range(1,5):
 			self.generateNote(self.background,i,self.railLength-self.yJudge,(255,255,255))
 		self.loadChart(self.path)
+		while time.perf_counter()<self.startTime:
+			pass
 		cv2.namedWindow('chart')
 		while not self.quit:
 			img=self.background.copy()

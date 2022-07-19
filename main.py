@@ -39,9 +39,10 @@ def playMusic():
 	hideAll()
 	win.update()
 	time.sleep(0.5)
-	cameraThread=camera.cameraThread()
-	chartThread=chartLoader.chartLoaderThread(infos[songNumber]["chart"])
-	musicThread=music.musicThread(path=infos[songNumber]["music"],volume=volumeScale.get())
+	startTime=time.perf_counter()+1
+	cameraThread=camera.cameraThread(startTime=startTime)
+	chartThread=chartLoader.chartLoaderThread(path=infos[songNumber]["chart"],startTime=startTime,offset=offsetNoteScale.get())
+	musicThread=music.musicThread(path=infos[songNumber]["music"],startTime=startTime,volume=volumeScale.get(),offset=offsetMusicScale.get())
 	cameraThread.start()
 	chartThread.start()
 	musicThread.start()
@@ -104,9 +105,13 @@ volumeScale=tkinter.Scale(win,from_=0,to=100,orient=tkinter.HORIZONTAL)
 volumeScale.set(100)
 volumeLabel=tkinter.Label(win,text='volume')
 
-offsetScale=tkinter.Scale(win,from_=-100,to=100,orient=tkinter.HORIZONTAL)
-offsetScale.set(0)
-offsetLabel=tkinter.Label(win,text='offset')
+offsetNoteScale=tkinter.Scale(win,from_=-500,to=500,orient=tkinter.HORIZONTAL)
+offsetNoteScale.set(0)
+offsetNoteLabel=tkinter.Label(win,text='offset of notes')
+
+offsetMusicScale=tkinter.Scale(win,from_=-500,to=500,orient=tkinter.HORIZONTAL)
+offsetMusicScale.set(0)
+offsetMusicLabel=tkinter.Label(win,text='offset of music')
 
 helpBanner=tkinter.Label(win,text='Help of AIDDR',font=('Arial', 15))
 helpContent=tkinter.Label(win,text='''What is AIDDR?\n
@@ -185,15 +190,19 @@ def showOptions():
 	optionsBanner.pack(anchor='n',side=tkinter.TOP)
 	volumeScale.pack(anchor='s',side=tkinter.TOP)
 	volumeLabel.pack(anchor='s',side=tkinter.TOP)
-	offsetScale.pack(anchor='s',side=tkinter.TOP)
-	offsetLabel.pack(anchor='s',side=tkinter.TOP)
+	offsetNoteScale.pack(anchor='s',side=tkinter.TOP)
+	offsetNoteLabel.pack(anchor='s',side=tkinter.TOP)
+	offsetMusicScale.pack(anchor='s',side=tkinter.TOP)
+	offsetMusicLabel.pack(anchor='s',side=tkinter.TOP)
 
 def hideOptions():
 	optionsBanner.pack_forget()
 	volumeScale.pack_forget()
 	volumeLabel.pack_forget()
-	offsetScale.pack_forget()
-	offsetLabel.pack_forget()
+	offsetNoteScale.pack_forget()
+	offsetNoteLabel.pack_forget()
+	offsetMusicScale.pack_forget()
+	offsetMusicLabel.pack_forget()
 
 def showHelp():
 	helpBanner.pack(anchor='n',side=tkinter.TOP)
