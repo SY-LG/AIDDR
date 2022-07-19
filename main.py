@@ -220,6 +220,7 @@ def hideBack():
 def hideAll():
 	hideMenu()
 	hideSelect()
+	hideResults()
 	hideOptions()
 	hideHelp()
 	hideCredits()
