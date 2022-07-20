@@ -40,14 +40,14 @@ def playMusic():
 	hideAll()
 	win.update()
 	time.sleep(0.5)
-	startTime=time.perf_counter()+1
+	startTime=time.perf_counter()+3
 	cameraThread=camera.cameraThread(path=infos[songNumber]["chart"],startTime=startTime)
 	chartThread=chartLoader.chartLoaderThread(path=infos[songNumber]["chart"],startTime=startTime,offset=offsetNoteScale.get())
 	musicThread=music.musicThread(path=infos[songNumber]["music"],startTime=startTime,volume=volumeScale.get(),offset=offsetMusicScale.get())
 	cameraThread.start()
 	chartThread.start()
 	musicThread.start()
-	time.sleep(infos[songNumber]["time"]/1000)
+	time.sleep(3+infos[songNumber]["time"]/1000)
 	cameraThread.quit=True
 	chartThread.quit=True
 	musicThread.quit=True
@@ -55,7 +55,7 @@ def playMusic():
 	cameraThread.join()
 	chartThread.join()
 	musicThread.join()
-	showResults({"Score":114514,"total":4,"Perfect":2,"Good":1,"Bad":0,"Miss":1})
+	showResults(cameraThread.finalResult)
 	showBack()
 
 def optionsFunc():
@@ -107,16 +107,17 @@ volumeScale=tkinter.Scale(win,from_=0,to=100,orient=tkinter.HORIZONTAL)
 volumeScale.set(100)
 volumeLabel=tkinter.Label(win,text='volume')
 
-offsetNoteScale=tkinter.Scale(win,from_=-500,to=500,orient=tkinter.HORIZONTAL)
+offsetNoteScale=tkinter.Scale(win,from_=-2000,to=2000,orient=tkinter.HORIZONTAL)
 offsetNoteScale.set(0)
 offsetNoteLabel=tkinter.Label(win,text='offset of notes')
 
-offsetMusicScale=tkinter.Scale(win,from_=-500,to=500,orient=tkinter.HORIZONTAL)
+offsetMusicScale=tkinter.Scale(win,from_=-2000,to=2000,orient=tkinter.HORIZONTAL)
 offsetMusicScale.set(0)
 offsetMusicLabel=tkinter.Label(win,text='offset of music')
 
 helpBanner=tkinter.Label(win,text='Help of AIDDR',font=('Arial', 15))
-helpContent=tkinter.Label(win,text='''What is AIDDR?\n
+helpContent=tkinter.Label(win,text='''
+	What is AIDDR?\n
 	DDR(Dance Dance Revolution) is a series of video games made by Konami
 	 in which players step on arrows on a large pad or mat to match the arrows on screen.
 	 The arrows are in time with the music.
@@ -179,7 +180,8 @@ def hideSelect():
 	confirmButton.place_forget()
 
 def showResults(results):
-	resultsLabel['text']=f'''Score:{results['Score']}
+	resultsLabel['text']=f'''
+	Score:{results['Score']}
 	Perfect:{results['Perfect']}
 	Good:{results['Good']}
 	Bad:{results['Bad']}

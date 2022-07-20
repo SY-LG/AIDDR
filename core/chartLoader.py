@@ -7,7 +7,6 @@ class chartLoaderThread(threading.Thread):
 		self.startTime=startTime-offset/1000
 	def run(self):
 		self.quit=False
-		self.startTime=time.perf_counter()
 		self.background=cv2.resize(cv2.imread('./data/pictures/chartBG.png'),(600,600))
 		self.xBias=75
 		self.railWidth=150

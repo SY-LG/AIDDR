@@ -24,8 +24,3 @@ class musicThread(threading.Thread):
 			stream.stop_stream()
 			stream.close()
 		audio.terminate()
-
-if __name__ == "__main__":
-	m=musicThread()
-	m.start()
-	m.join()
