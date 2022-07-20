@@ -22,8 +22,7 @@ class cameraThread(threading.Thread):
 		res = []
 		for i in file["notes"]:
 			res.append(i)
-		pd.DataFrame(res).to_csv("music.csv")
-		pos=0#指代第几行
+		pos=1#指代第几行
 
 		results=[]
 
@@ -41,17 +40,18 @@ class cameraThread(threading.Thread):
 			miss=1
 			judged=0
 
-			while((time.perf_counter()-self.startTime)>=res[pos]-300 and (time.perf_counter()-self.startTime)<=res[pos][2]+300):#判断移动一部分到这里，这里是什么时候应该开始判断及结果
+			while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-300 and (time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+300):
+				#判断移动一部分到这里，这里是什么时候应该开始判断及结果
 				judged=1
-				bad=judge.judgeFrame(frame,res[pos][1])
+				bad=judge.judgeFrame(frame,res[pos][2])
 				if bad :
 					break
-				while((time.perf_counter()-self.startTime)>=res[pos]-160 and (time.perf_counter()-self.startTime)<=res[pos][2]+160):
-					good =judge.judgeFrame(frame,res[pos][1])
+				while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-160 and (time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+160):
+					good =judge.judgeFrame(frame,res[pos][2])
 					if good :
 						break
-					while((time.perf_counter()-self.startTime)>=res[pos]-80 and (time.perf_counter()-self.startTime)<=res[pos][2]+80):
-						perfect=judge.judgeFrame(frame,res[pos][1])
+					while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-80 and (time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+80):
+						perfect=judge.judgeFrame(frame,res[pos][2])
 						if perfect:
 							break
 
