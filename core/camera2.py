@@ -3,6 +3,7 @@ import json
 import threading
 import cv2
 import time
+import judge
 class cameraThread(threading.Thread):
 	def __init__(self):
 		threading.Thread.__init__(self)
@@ -32,15 +33,15 @@ class cameraThread(threading.Thread):
 
 			while(time.time()>=res[pos]-300 and time.time()<=res[pos][2]+300):#判断移动一部分到这里，这里是什么时候应该开始判断及结果
 				judged=1
-				bad=judgeFrame(frame,res[pos][1])
+				bad=judge.judgeFrame(frame,res[pos][1])
 				if bad :
 					break
 				while(time.time()>=res[pos]-160 and time.time()<=res[pos][2]+160):
-					good =judgeFrame(frame,res[pos][1])
+					good =judge.judgeFrame(frame,res[pos][1])
 					if good :
 						break
 					while(time.time()>=res[pos]-80 and time.time()<=res[pos][2]+80):
-						perfect=judgeFrame(frame,res[pos][1])
+						perfect=judge.judgeFrame(frame,res[pos][1])
 						if perfect:
 							break
 			if judged:
