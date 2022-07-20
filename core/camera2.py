@@ -40,31 +40,31 @@ class cameraThread(threading.Thread):
 			miss=1
 			judged=0
 
-			while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-300 and (time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+300):
-				#判断移动一部分到这里，这里是什么时候应该开始判断及结果
-				judged=1
-				bad=judge.judgeFrame(frame,res[pos][2])
-				if bad :
-					break
-				while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-160 and (time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+160):
-					good =judge.judgeFrame(frame,res[pos][2])
-					if good :
+			while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-300 ):
+				pos+=1
+				flag=0
+				while ((time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+300) :
+					judged=1
+					flag=1
+					bad=judge.judgeFrame(frame=frame,flag=res[pos]["rail"])
+					if bad :
 						break
-					while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-80 and (time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+80):
-						perfect=judge.judgeFrame(frame,res[pos][2])
-						if perfect:
+					while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-160 and (time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+160):
+						good =judge.judgeFrame(frame,res[pos]["rail"])
+						if good :
 							break
+						while((time.perf_counter()-self.startTime)*1000>=res[pos]["time"]-80 and (time.perf_counter()-self.startTime)*1000<=res[pos]["time"]+80):
+							perfect=judge.judgeFrame(frame,res[pos]["rail"])
+							if perfect:
+								break
+				if flag:
+					break
 
 			if judged:
 				pos+=1
 				score=perfect+good+bad+1
 				miss=not (perfect or good or bad)
-				results.append = [{'score':score,'perfect':perfect,'good':good,'bad':bad,'miss':miss}]
-
-		with open ('results.csv','w',encoding='utf-8') as fp:
-			writer =csv.DictWriter(fp,['score','perfect','good','bad','miss'])
-			writer.writeheader()
-			writer.writerows(results)
+				#结果？
 
 		camera.release()
 		cv2.destroyAllWindows()
