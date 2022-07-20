@@ -1,18 +1,21 @@
 [
 	{
 		"name": "towa no utage",
+		"illustration": "./data/pictures/towa no utage.jpg",
 		"chart": "./data/charts/towa no utage.json",
 		"music": "./data/musics/towa no utage.wav",
 		"time": 180000
 	},
 	{
 		"name": "risingsun",
+		"illustration": "./data/pictures/risingsun.jpg",
 		"chart": "./data/charts/risingsun.json",
 		"music": "./data/musics/risingsun.wav",
 		"time": 310000
 	},
 	{
 		"name": "test",
+		"illustration": "./data/pictures/test.jpg",
 		"chart": "./data/charts/chart1.json",
 		"music": "./data/musics/t.wav",
 		"time": 10000

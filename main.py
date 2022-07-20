@@ -1,4 +1,5 @@
 from mttkinter import mtTkinter as tkinter
+from PIL import Image,ImageTk
 import json,time
 from core import camera,chartLoader,music
 
@@ -91,6 +92,7 @@ exitButton=tkinter.Button(win,command=lambda : win.destroy(),text='Exit')
 backButton=tkinter.Button(win,command=backFunc,text='Back')
 
 selectBanner=tkinter.Label(win,text='Select music',font=('Arial', 15))
+selectCanvas=tkinter.Canvas(win,height=500,width=500)
 selectLabel=tkinter.Label(win,pady=20)
 prevButton=tkinter.Button(win,command=prevFunc,text='Prev')
 nextButton=tkinter.Button(win,command=nextFunc,text='Next')
@@ -152,11 +154,14 @@ def hideMenu():
 
 def showSelect():
 	global infos,songNumber
+	showSelect.img=ImageTk.PhotoImage(Image.open(infos[songNumber]["illustration"]).resize((500,500)))
+	selectCanvas.create_image(250,250,image=showSelect.img)
 	selectLabel['text']=f'''name:{infos[songNumber]["name"]}
 	{songNumber+1}/{len(infos)}
 	'''
 	selectBanner.pack(anchor='n',side=tkinter.TOP)
-	selectLabel.pack(anchor='s',side=tkinter.BOTTOM)
+	selectCanvas.pack(anchor='s',side=tkinter.TOP)
+	selectLabel.pack(anchor='s',side=tkinter.TOP)
 	prevButton.place(relx=0.7,rely=0.2)
 	nextButton.place(relx=0.7,rely=0.3)
 	confirmButton.place(relx=0.7,rely=0.4)
@@ -167,6 +172,7 @@ def showSelect():
 
 def hideSelect():
 	selectBanner.pack_forget()
+	selectCanvas.pack_forget()
 	selectLabel.pack_forget()
 	prevButton.place_forget()
 	nextButton.place_forget()
