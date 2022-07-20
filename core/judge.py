@@ -14,20 +14,20 @@ import mediapipe as mp
 
 
 
-def judgeFrame(self,frame,flag):
+def judgeFrame(frame,flag):
     mpPose = mp.solutions.pose 
     pose = mpPose.Pose(static_image_mode=False, smooth_landmarks=True,min_detection_confidence=0.5, min_tracking_confidence=0.5)
      
     mpDraw = mp.solutions.drawing_utils
     results = pose.process(frame)
-    self.lmList = []
+    lmList = []
     if results.pose_landmarks:
         for id, lm in enumerate(results.pose_landmarks.landmark):
             h, w, c = frame.shape
             cx, cy = int(lm.x * w), int(lm.y * h)
-            self.lmList.append([id, cx, cy, lm.z])
+            lmList.append([id, cx, cy, lm.z])
 
-    return judge(flag,self.lmList)
+    return judge(flag,lmList)
 
 
 #分动作。可以再增减
