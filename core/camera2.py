@@ -3,7 +3,11 @@ import json
 import threading
 import cv2
 import time
+
+import sys
+sys.path.append('D:\learning\python\work\AIDDR-main\core')#这边是自己的judge所在文件夹位置
 import judge
+
 class cameraThread(threading.Thread，startTime):
 	def __init__(self):
 		threading.Thread.__init__(self)
