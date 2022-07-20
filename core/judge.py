@@ -1,3 +1,11 @@
+import time,json
+class judger:
+    def __init__(self,path):
+        with open(path,'r') as File:
+            self.notes=json.load(File).get('notes')
+    def judgeFrame(frame):
+        pass
+
 # camera.py will call judgeFrame in each frame.
 # you need to judge what the player should do and how he's doing.
 # There will be a param that tells the start time.
@@ -6,9 +14,6 @@
 # Judgement can be None,"Perfect","Good","Bad" or "Miss"
 # Judge one note per frame is OK (I guess), since if two notes should be judged at the same time,
 # judging them in two frames should not make a big difference.
-def judgeFrame(frame):
-    pass
-
 
 #1.使用就是import 文件名（可以重新命名我没起名字），每一帧要判断的时候调用 文件名.score(各种参数，下有说明)
 #2.这个加了z方向的变化，动作更多了些，不知道能不能z方向识别准确，也许可以试试

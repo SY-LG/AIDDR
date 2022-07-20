@@ -41,7 +41,7 @@ def playMusic():
 	win.update()
 	time.sleep(0.5)
 	startTime=time.perf_counter()+1
-	cameraThread=camera.cameraThread(startTime=startTime)
+	cameraThread=camera.cameraThread(path=infos[songNumber]["chart"],startTime=startTime)
 	chartThread=chartLoader.chartLoaderThread(path=infos[songNumber]["chart"],startTime=startTime,offset=offsetNoteScale.get())
 	musicThread=music.musicThread(path=infos[songNumber]["music"],startTime=startTime,volume=volumeScale.get(),offset=offsetMusicScale.get())
 	cameraThread.start()
