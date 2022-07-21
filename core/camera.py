@@ -36,3 +36,4 @@ class cameraThread(threading.Thread):
 				cv2.waitKey(1)
 		camera.release()
 		cv2.destroyAllWindows()
+		self.finalResult["Score"]=100000*(self.finalResult["Perfect"]+self.finalResult["Good"]*0.5+self.finalResult["Bad"]*0.3)
