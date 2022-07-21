@@ -6,6 +6,8 @@ from core import camera,chartLoader,music
 infos={}
 songNumber=0
 
+
+
 # Buttons related functions
 
 def startFunc():
@@ -40,14 +42,14 @@ def playMusic():
 	hideAll()
 	win.update()
 	time.sleep(0.5)
-	startTime=time.perf_counter()+1
-	cameraThread=camera.cameraThread(startTime=startTime,path=infos[songNumber]["chart"])
+	startTime=time.perf_counter()+3
+	cameraThread=camera.cameraThread(path=infos[songNumber]["chart"],startTime=startTime)
 	chartThread=chartLoader.chartLoaderThread(path=infos[songNumber]["chart"],startTime=startTime,offset=offsetNoteScale.get())
 	musicThread=music.musicThread(path=infos[songNumber]["music"],startTime=startTime,volume=volumeScale.get(),offset=offsetMusicScale.get())
 	cameraThread.start()
 	chartThread.start()
 	musicThread.start()
-	time.sleep(infos[songNumber]["time"]/1000)
+	time.sleep(3+infos[songNumber]["time"]/1000)
 	cameraThread.quit=True
 	chartThread.quit=True
 	musicThread.quit=True
@@ -55,7 +57,7 @@ def playMusic():
 	cameraThread.join()
 	chartThread.join()
 	musicThread.join()
-	showResults({"Score":114514,"total":4,"Perfect":2,"Good":1,"Bad":0,"Miss":1})
+	showResults(cameraThread.finalResult)
 	showBack()
 
 def optionsFunc():
@@ -69,6 +71,7 @@ def helpFunc():
 	showBack()
 
 def creditsFunc():
+	start_window.create_image(590,354, image=credits_photo)
 	hideAll()
 	showCredits()
 	showBack()
@@ -79,18 +82,46 @@ def backFunc():
 
 # tkinter objects
 
+
+
 win=tkinter.Tk()
 win.title('AIDDR')
-win.geometry('1400x800')
 
-startButton=tkinter.Button(win,command=startFunc,text='Start')
-optionsButton=tkinter.Button(win,command=optionsFunc,text='Options')
-helpButton=tkinter.Button(win,command=helpFunc,text='Help')
-creditsButton=tkinter.Button(win,command=creditsFunc,text='Credits')
-exitButton=tkinter.Button(win,command=lambda : win.destroy(),text='Exit')
+#images
+start_photo_path = "./data/pictures/start.png"
+credits_photo_path = "./data/pictures/credits.png"
+help_photo_path = "./data/pictures/help.png"
 
-backButton=tkinter.Button(win,command=backFunc,text='Back')
+start_img = Image.open(start_photo_path)
+credits_img = Image.open(credits_photo_path)
+options_img = Image.open(credits_photo_path)
+help_img = Image.open(help_photo_path)
 
+global start_photo,credits_photo,options_photo,help_photo
+start_photo = ImageTk.PhotoImage(start_img)
+credits_photo = ImageTk.PhotoImage(credits_img)
+options_photo = ImageTk.PhotoImage(options_img)
+help_photo = ImageTk.PhotoImage(help_img) 
+
+#开始窗口
+start_window = tkinter.Canvas(win, width=1180,height=708)
+start_window.create_image(590,354, image=start_photo)
+start_window.pack()
+ 
+
+#开始界面五个按钮
+button_photo = tkinter.PhotoImage(file="./data/pictures/back.png")
+
+startButton=tkinter.Button(win,command=startFunc,text='Start',fg="white",image=button_photo,compound = tkinter.CENTER)
+optionsButton=tkinter.Button(win,command=optionsFunc,text='Options',fg="white",image=button_photo,compound = tkinter.CENTER)
+helpButton=tkinter.Button(win,command=helpFunc,text='Help',fg="white",image=button_photo,compound = tkinter.CENTER)
+creditsButton=tkinter.Button(win,command=creditsFunc,text='Credits',fg="white",image=button_photo,compound = tkinter.CENTER)
+exitButton=tkinter.Button(win,command=lambda : win.destroy(),text='Exit',fg="white",image=button_photo,compound = tkinter.CENTER)
+
+#退出
+backButton=tkinter.Button(win,command=backFunc,text='Back',fg="white",bg="#40E0D0")
+
+#选择界面
 selectBanner=tkinter.Label(win,text='Select music',font=('Arial', 15))
 selectCanvas=tkinter.Canvas(win,height=500,width=500)
 selectLabel=tkinter.Label(win,pady=20)
@@ -98,25 +129,30 @@ prevButton=tkinter.Button(win,command=prevFunc,text='Prev')
 nextButton=tkinter.Button(win,command=nextFunc,text='Next')
 confirmButton=tkinter.Button(win,command=confirmFunc,text='Comfirm')
 
+
+
 resultsBanner=tkinter.Label(win,text='Results',font=('Arial',15))
 resultsLabel=tkinter.Label(win,pady=20)
 
-optionsBanner=tkinter.Label(win,text='Options',font=('Arial', 15))
+#选择界面
+optionsBanner=tkinter.Label(win,text='Options',font=('Arial', 15),fg="blue",bg="whitesmoke")
 
-volumeScale=tkinter.Scale(win,from_=0,to=100,orient=tkinter.HORIZONTAL)
+volumeScale=tkinter.Scale(win,from_=0,to=100,orient=tkinter.HORIZONTAL,fg="blue")
 volumeScale.set(100)
-volumeLabel=tkinter.Label(win,text='volume')
+volumeLabel=tkinter.Label(win,text='volume',fg="blue")
 
-offsetNoteScale=tkinter.Scale(win,from_=-500,to=500,orient=tkinter.HORIZONTAL)
+offsetNoteScale=tkinter.Scale(win,from_=-2000,to=2000,orient=tkinter.HORIZONTAL,fg="blue")
 offsetNoteScale.set(0)
-offsetNoteLabel=tkinter.Label(win,text='offset of notes')
+offsetNoteLabel=tkinter.Label(win,text='offset of notes',fg="blue")
 
-offsetMusicScale=tkinter.Scale(win,from_=-500,to=500,orient=tkinter.HORIZONTAL)
+offsetMusicScale=tkinter.Scale(win,from_=-2000,to=2000,orient=tkinter.HORIZONTAL,fg="blue")
 offsetMusicScale.set(0)
-offsetMusicLabel=tkinter.Label(win,text='offset of music')
+offsetMusicLabel=tkinter.Label(win,text='offset of music',fg="blue")
 
-helpBanner=tkinter.Label(win,text='Help of AIDDR',font=('Arial', 15))
-helpContent=tkinter.Label(win,text='''What is AIDDR?\n
+#帮助界面
+helpBanner=tkinter.Label(win,text='Help of AIDDR',font=('Arial', 15),fg="cyan")
+helpContent=tkinter.Label(win,text='''
+	What is AIDDR?\n
 	DDR(Dance Dance Revolution) is a series of video games made by Konami
 	 in which players step on arrows on a large pad or mat to match the arrows on screen.
 	 The arrows are in time with the music.
@@ -131,27 +167,31 @@ helpContent=tkinter.Label(win,text='''What is AIDDR?\n
 	 and left means you should use your left arm/leg.
 	 So, in this case, just stretch out your left arm
 	 when that arrow reach the bottom of the screen.
-	''')
+	'''
+	,fg="cyan",font=('Arial', 7))
 
-creditsBanner=tkinter.Label(win,text='AIDDR\n@AI001-AIDDR team 2022',font=('Arial', 15))
-creditsContent=tkinter.Label(win,text='Team members:\nSYLG\ncatanduni\nderivative233\n\nSpecial thanks to:\nBig_True')
+#感谢界面
+creditsBanner=tkinter.Label(win,text='AIDDR\n@AI001-AIDDR team 2022',font=('Arial', 10),fg="cyan")
+creditsContent=tkinter.Label(win,text='Team members:\nSYLG\ncatanduni\nderivative233\n\nSpecial thanks to:\nBig_True',fg="cyan")
 
 # hide and show functions
 
+
 def showMenu():
-	startButton.pack(anchor='ne',side=tkinter.TOP,padx=50,pady=20,expand=True)
-	optionsButton.pack(anchor='ne',side=tkinter.TOP,padx=50,pady=20,expand=True)
-	helpButton.pack(anchor='ne',side=tkinter.TOP,padx=50,pady=20,expand=True)
-	creditsButton.pack(anchor='ne',side=tkinter.TOP,padx=50,pady=20,expand=True)
-	exitButton.pack(anchor='ne',side=tkinter.TOP,padx=50,pady=20,expand=True)
+	startButton.place(x=722,y=180,height=70,width=130)
+	optionsButton.place(x=722,y=330,height=70,width=130)
+	helpButton.place(x=0,y=0,height=50,width=50)
+	creditsButton.place(x=0,y=60,height=50,width=50)
+	exitButton.place(x=722,y=480,height=70,width=130)
 
 def hideMenu():
-	startButton.pack_forget()
-	optionsButton.pack_forget()
-	helpButton.pack_forget()
-	creditsButton.pack_forget()
-	exitButton.pack_forget()
+	startButton.place_forget()
+	optionsButton.place_forget()
+	helpButton.place_forget()
+	creditsButton.place_forget()
+	exitButton.place_forget()
 
+	#start后具体的选择界面
 def showSelect():
 	global infos,songNumber
 	showSelect.img=ImageTk.PhotoImage(Image.open(infos[songNumber]["illustration"]).resize((500,500)))
@@ -177,9 +217,10 @@ def hideSelect():
 	prevButton.place_forget()
 	nextButton.place_forget()
 	confirmButton.place_forget()
-
+	#结果界面
 def showResults(results):
-	resultsLabel['text']=f'''Score:{results['Score']}
+	resultsLabel['text']=f'''
+	Score:{results['Score']}
 	Perfect:{results['Perfect']}
 	Good:{results['Good']}
 	Bad:{results['Bad']}
@@ -191,46 +232,52 @@ def showResults(results):
 def hideResults():
 	resultsBanner.pack_forget()
 	resultsLabel.pack_forget()
-
+	#选择界面
 def showOptions():
-	optionsBanner.pack(anchor='n',side=tkinter.TOP)
-	volumeScale.pack(anchor='s',side=tkinter.TOP)
-	volumeLabel.pack(anchor='s',side=tkinter.TOP)
-	offsetNoteScale.pack(anchor='s',side=tkinter.TOP)
-	offsetNoteLabel.pack(anchor='s',side=tkinter.TOP)
-	offsetMusicScale.pack(anchor='s',side=tkinter.TOP)
-	offsetMusicLabel.pack(anchor='s',side=tkinter.TOP)
+	start_window.create_image(590,354, image=options_photo)
+	optionsBanner.place(x=510,y=160,height=50,width=200)
+	volumeScale.place(x=510,y=210,height=50,width=200)
+	volumeLabel.place(x=510,y=260,height=50,width=200)
+	offsetNoteScale.place(x=510,y=310,height=50,width=200)
+	offsetNoteLabel.place(x=510,y=360,height=50,width=200)
+	offsetMusicScale.place(x=510,y=410,height=50,width=200)
+	offsetMusicLabel.place(x=510,y=460,height=50,width=200)
 
 def hideOptions():
-	optionsBanner.pack_forget()
-	volumeScale.pack_forget()
-	volumeLabel.pack_forget()
-	offsetNoteScale.pack_forget()
-	offsetNoteLabel.pack_forget()
-	offsetMusicScale.pack_forget()
-	offsetMusicLabel.pack_forget()
-
+	start_window.create_image(590,354, image=start_photo)
+	optionsBanner.place_forget()
+	volumeScale.place_forget()
+	volumeLabel.place_forget()
+	offsetNoteScale.place_forget()
+	offsetNoteLabel.place_forget()
+	offsetMusicScale.place_forget()
+	offsetMusicLabel.place_forget()
+	#帮助界面
 def showHelp():
-	helpBanner.pack(anchor='n',side=tkinter.TOP)
-	helpContent.pack(anchor='n',side=tkinter.TOP)
+	start_window.create_image(590,354, image=help_photo)
+	helpBanner.place(x=840,y=100,height=50,width=150)
+	helpContent.place(x=705,y=150,height=400,width=400)
 
 def hideHelp():
-	helpBanner.pack_forget()
-	helpContent.pack_forget()
-
+	start_window.create_image(590,354, image=start_photo)
+	helpBanner.place_forget()
+	helpContent.place_forget()
+	#感谢界面
 def showCredits():
-	creditsBanner.pack(anchor='n',side=tkinter.TOP)
-	creditsContent.pack(anchor='n',side=tkinter.TOP)
+	start_window.create_image(590,354, image=credits_photo)
+	creditsBanner.place(x=510,y=210,height=50,width=200)
+	creditsContent.place(x=510,y=260,height=200,width=200)
 
 def hideCredits():
-	creditsBanner.pack_forget()
-	creditsContent.pack_forget()
-
+	start_window.create_image(590,354, image=start_photo)
+	creditsBanner.place_forget()
+	creditsContent.place_forget()
+	#返回按钮
 def showBack():
-	backButton.pack(anchor='ne',side=tkinter.BOTTOM,padx=50,pady=20)
+	backButton.place(x=1000,y=650,height=50,width=100)
 
 def hideBack():
-	backButton.pack_forget()
+	backButton.place_forget()
 
 def hideAll():
 	hideMenu()
