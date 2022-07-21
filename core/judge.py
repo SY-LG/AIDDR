@@ -39,9 +39,9 @@ class judger:
 				return True
 		return False
 	def judgeMotion(self,motion):
-		timeBad=1000
-		timeGood=500
-		timePerfect=200
+		timeBad=2000
+		timeGood=1800
+		timePerfect=1500
 		t=(time.perf_counter()-self.startTime)*1000
 		for i,note in enumerate(self.notes):
 			note=self.notes[i]

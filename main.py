@@ -127,7 +127,7 @@ backButton=tkinter.Button(win,command=backFunc,text='Back',fg="white",bg="#40E0D
 #选择界面
 selectBanner=tkinter.Label(win,text='Select music',font=('Arial', 12),fg="white",bg="#40E0D0")
 selectCanvas=tkinter.Canvas(win,height=500,width=500)
-selectLabel=tkinter.Label(win,pady=20)
+selectLabel=tkinter.Label(win,fg='cyan')
 prevButton=tkinter.Button(win,command=prevFunc,text='Prev',fg="white",bg="#40E0D0")
 nextButton=tkinter.Button(win,command=nextFunc,text='Next',fg="white",bg="#40E0D0")
 confirmButton=tkinter.Button(win,command=confirmFunc,text='Comfirm',fg="white",bg="#40E0D0")
@@ -201,7 +201,7 @@ def showSelect():
 	global infos,songNumber
 	showSelect.img=ImageTk.PhotoImage(Image.open(infos[songNumber]["illustration"]).resize((500,500)))
 	start_window.create_image(630,350,image=showSelect.img)
-	selectLabel=tkinter.Label(win,text=f'name:{infos[songNumber]["name"]}\n{songNumber+1}/{len(infos)}',fg='cyan')
+	selectLabel['text']=f'name:{infos[songNumber]["name"]}\n{songNumber+1}/{len(infos)}'
 	selectBanner.place(x=570,y=30,height=50,width=150)
 	selectLabel.place(x=570,y=650,height=50,width=150)
 	prevButton.place(x=0.8*1180,y=0.3*708)
@@ -229,12 +229,12 @@ def showResults(results):
 	Bad:{results['Bad']}
 	Miss:{results['Miss']}
 	'''
-	resultsBanner.pack(anchor='n',side=tkinter.TOP)
-	resultsLabel.pack(anchor='s',side=tkinter.BOTTOM)
+	resultsBanner.place(x=570,y=30,height=50,width=150)
+	resultsLabel.place(x=570,y=200,height=200,width=150)
 
 def hideResults():
-	resultsBanner.pack_forget()
-	resultsLabel.pack_forget()
+	resultsBanner.place_forget()
+	resultsLabel.place_forget()
 	#选择界面
 def showOptions():
 	start_window.create_image(590,354, image=options_photo)
