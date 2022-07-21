@@ -201,15 +201,12 @@ def showSelect():
 	global infos,songNumber
 	showSelect.img=ImageTk.PhotoImage(Image.open(infos[songNumber]["illustration"]).resize((500,500)))
 	start_window.create_image(630,350,image=showSelect.img)
-	selectLabel=tkinter.Label(win,text='''name:{infos[songNumber]["name"]}
-	{songNumber+1}/{len(infos)}
-	''',fg='cyan')
-
+	selectLabel=tkinter.Label(win,text=f'name:{infos[songNumber]["name"]}\n{songNumber+1}/{len(infos)}',fg='cyan')
 	selectBanner.place(x=570,y=30,height=50,width=150)
 	selectLabel.place(x=570,y=650,height=50,width=150)
-	prevButton.place(x=0.7*1180,y=0.3*708)
-	nextButton.place(x=0.7*1180,y=0.5*708)
-	confirmButton.place(x=0.7*1180,y=0.7*708)
+	prevButton.place(x=0.8*1180,y=0.3*708)
+	nextButton.place(x=0.8*1180,y=0.5*708)
+	confirmButton.place(x=0.8*1180,y=0.7*708)
 	if songNumber==0:
 		prevButton.place_forget()
 	elif songNumber==len(infos)-1:
@@ -217,9 +214,9 @@ def showSelect():
 
 def hideSelect():
 	start_window.create_image(590,354, image=start_photo)
-	selectBanner.pack_forget()
-	selectCanvas.pack_forget()
-	selectLabel.pack_forget()
+	selectBanner.place_forget()
+	selectCanvas.place_forget()
+	selectLabel.place_forget()
 	prevButton.place_forget()
 	nextButton.place_forget()
 	confirmButton.place_forget()
