@@ -7,14 +7,16 @@ class judger:
 			self.notes[i]["num"]=i
 		self.startTime=startTime
 		self.pose=mp.solutions.pose.Pose(min_detection_confidence=0.5,min_tracking_confidence=0.5)
-		self.statusLast=[False for i in range(4)]
+		self.status=[[False,]*12,]*4
 	def judgeFrame(self,frame):
 		self.frame=frame
-		self.landmarks=self.getLandmarks()
-		self.status=[self.judge(i) for i in range(4)]
+		self.updateStatus()
 		motion=[self.judgeStatus(i) for i in range(4)]
-		self.statusLast=self.status
 		return (self.frame,self.judgeMotion(motion))
+	def updateStatus(self):
+		self.landmarks=self.getLandmarks()
+		for i in range(4):
+			self.status[i]=[*self.status[i][1:],self.judge(i)]
 	def getLandmarks(self):
 		_=self.pose.process(cv2.cvtColor(self.frame,cv2.COLOR_BGR2RGB)).pose_landmarks
 		if _:
@@ -24,8 +26,18 @@ class judger:
 			# no object detected
 			return None
 	def judgeStatus(self,i):
-		# only when last status is False and this status is True
-		return self.status[i] and not self.statusLast[i]
+		return self.bufcnt(self.status[i][-6:],True,3) and self.bufcnt(self.status[i][:-6],False,3)
+		# return self.status[i] and not self.statusLast[i]
+	def bufcnt(self,conditions,targetCondition,targetNum):
+		cnt=0
+		for condition in conditions:
+			if condition==targetCondition:
+				cnt+=1
+			else:
+				cnt=0
+			if cnt==targetNum:
+				return True
+		return False
 	def judgeMotion(self,motion):
 		timeBad=1000
 		timeGood=500

@@ -5,6 +5,7 @@
 		{"type": 1, "rail": 4, "time": 2000},
 		{"type": 1, "rail": 3, "time": 4000},
 		{"type": 1, "rail": 1, "time": 6000},
+		{"type": 1, "rail": 2, "time": 6000},
 		{"type": 1, "rail": 2, "time": 8000}
 	]
 }
