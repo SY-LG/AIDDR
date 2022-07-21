@@ -26,7 +26,7 @@ class judger:
 			# no object detected
 			return None
 	def judgeStatus(self,i):
-		return self.bufcnt(self.status[i][-6:],True,3) and self.bufcnt(self.status[i][:-6],False,3)
+		return self.bufcnt(self.status[i][-6:],True,2) and self.bufcnt(self.status[i][:-6],False,2)
 		# return self.status[i] and not self.statusLast[i]
 	def bufcnt(self,conditions,targetCondition,targetNum):
 		cnt=0
