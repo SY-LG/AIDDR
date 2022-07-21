@@ -47,17 +47,17 @@ class judger:
 			note=self.notes[i]
 			if t>note["time"]+timeBad:
 				self.notes.pop(i)
-				return (note["num"],"Miss",t)
+				return (note["rail"]-1,"Miss",t)
 			elif t<note["time"]-timeBad:
 				return None
 			elif motion[note["rail"]-1]:
 				self.notes.pop(i)
 				if t>note["time"]-timePerfect and t<note["time"]+timePerfect:
-					return (note["num"],"Perfect",t)
+					return (note["rail"]-1,"Perfect",t)
 				elif t>note["time"]-timeGood and t<note["time"]+timeGood:
-					return (note["num"],"Good",t)
+					return (note["rail"]-1,"Good",t)
 				else:
-					return (note["num"],"Bad",t)
+					return (note["rail"]-1,"Bad",t)
 		else:
 			return None
 	def judge(self,flag):

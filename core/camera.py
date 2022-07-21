@@ -12,6 +12,7 @@ class cameraThread(threading.Thread):
 		while time.perf_counter()<self.startTime:
 			pass
 		cv2.namedWindow('camera')
+		showPos=[(450,50),(50,50),(50,450),(450,450)]
 		i=0
 		showList=[]
 		self.finalResult={"Score":0,"total":0,"Perfect":0,"Good":0,"Bad":0,"Miss":0}
@@ -30,8 +31,8 @@ class cameraThread(threading.Thread):
 						break
 				showList=showList[i:]
 				for showObject in showList:
-					cv2.putText(frame, showObject[1], (50,50), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,0), 3)
+					cv2.putText(frame, showObject[1], showPos[showObject[0]], cv2.FONT_HERSHEY_PLAIN, 3, (255,0,0), 3)
 				cv2.imshow('camera',frame)
-				cv2.waitKey(5)
+				cv2.waitKey(1)
 		camera.release()
 		cv2.destroyAllWindows()
