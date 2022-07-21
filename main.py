@@ -91,17 +91,20 @@ win.title('AIDDR')
 start_photo_path = "./data/pictures/start.png"
 credits_photo_path = "./data/pictures/credits.png"
 help_photo_path = "./data/pictures/help.png"
+select_photo_path = "./data/pictures/option.png"
 
 start_img = Image.open(start_photo_path)
 credits_img = Image.open(credits_photo_path)
 options_img = Image.open(credits_photo_path)
 help_img = Image.open(help_photo_path)
+select_img = Image.open(select_photo_path)
 
 global start_photo,credits_photo,options_photo,help_photo
 start_photo = ImageTk.PhotoImage(start_img)
 credits_photo = ImageTk.PhotoImage(credits_img)
 options_photo = ImageTk.PhotoImage(options_img)
 help_photo = ImageTk.PhotoImage(help_img) 
+select_photo = ImageTk.PhotoImage(select_img) 
 
 #开始窗口
 start_window = tkinter.Canvas(win, width=1180,height=708)
@@ -122,12 +125,12 @@ exitButton=tkinter.Button(win,command=lambda : win.destroy(),text='Exit',fg="whi
 backButton=tkinter.Button(win,command=backFunc,text='Back',fg="white",bg="#40E0D0")
 
 #选择界面
-selectBanner=tkinter.Label(win,text='Select music',font=('Arial', 15))
+selectBanner=tkinter.Label(win,text='Select music',font=('Arial', 12),fg="white",bg="#40E0D0")
 selectCanvas=tkinter.Canvas(win,height=500,width=500)
 selectLabel=tkinter.Label(win,pady=20)
-prevButton=tkinter.Button(win,command=prevFunc,text='Prev')
-nextButton=tkinter.Button(win,command=nextFunc,text='Next')
-confirmButton=tkinter.Button(win,command=confirmFunc,text='Comfirm')
+prevButton=tkinter.Button(win,command=prevFunc,text='Prev',fg="white",bg="#40E0D0")
+nextButton=tkinter.Button(win,command=nextFunc,text='Next',fg="white",bg="#40E0D0")
+confirmButton=tkinter.Button(win,command=confirmFunc,text='Comfirm',fg="white",bg="#40E0D0")
 
 
 
@@ -193,24 +196,27 @@ def hideMenu():
 
 	#start后具体的选择界面
 def showSelect():
+	start_window.create_image(590,354, image=select_photo)
+
 	global infos,songNumber
 	showSelect.img=ImageTk.PhotoImage(Image.open(infos[songNumber]["illustration"]).resize((500,500)))
-	selectCanvas.create_image(250,250,image=showSelect.img)
-	selectLabel['text']=f'''name:{infos[songNumber]["name"]}
+	start_window.create_image(630,350,image=showSelect.img)
+	selectLabel=tkinter.Label(win,text='''name:{infos[songNumber]["name"]}
 	{songNumber+1}/{len(infos)}
-	'''
-	selectBanner.pack(anchor='n',side=tkinter.TOP)
-	selectCanvas.pack(anchor='s',side=tkinter.TOP)
-	selectLabel.pack(anchor='s',side=tkinter.TOP)
-	prevButton.place(relx=0.7,rely=0.2)
-	nextButton.place(relx=0.7,rely=0.3)
-	confirmButton.place(relx=0.7,rely=0.4)
+	''',fg='cyan')
+
+	selectBanner.place(x=570,y=30,height=50,width=150)
+	selectLabel.place(x=570,y=650,height=50,width=150)
+	prevButton.place(x=0.7*1180,y=0.3*708)
+	nextButton.place(x=0.7*1180,y=0.5*708)
+	confirmButton.place(x=0.7*1180,y=0.7*708)
 	if songNumber==0:
 		prevButton.place_forget()
 	elif songNumber==len(infos)-1:
 		nextButton.place_forget()
 
 def hideSelect():
+	start_window.create_image(590,354, image=start_photo)
 	selectBanner.pack_forget()
 	selectCanvas.pack_forget()
 	selectLabel.pack_forget()
