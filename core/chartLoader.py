@@ -40,8 +40,8 @@ class chartLoaderThread(threading.Thread):
 	def isEarlyNote(self,t):
 		return t>=(time.perf_counter()-self.startTime)*1000+self.railLength/self.spd
 	def generateNote(self,img,rail,y,color=(0,0,0)):
-		downArrowPoints=[[-10,-20],[10,-20],[10,0],[20,0],[0,10],[-20,0],[-10,0]]
-		arrawPoints=self.move(points=downArrowPoints,center=(self.xBias+self.railWidth*(rail-1),y),angle=math.pi*(0.25+0.5*rail),scale=3)
+		downArrowPoints=[[-6,18],[18,18],[18,-6],[12,0],[-6,-18],[-18,-6],[0,12]]
+		arrawPoints=self.move(points=downArrowPoints,center=(self.xBias+self.railWidth*(rail-1),y),angle=math.pi*(0.5*rail),scale=3)
 		arrow=np.array([[*arrawPoints]])
 		cv2.fillPoly(img,arrow,color)
 	def move(self,points,center=(0,0),angle=0,scale=1):
